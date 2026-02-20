@@ -18,7 +18,7 @@ RESULTS_FILE = REPO_ROOT / "autograder" / "results.json"
 # Student IDs: PY102001001 .. PY102001020
 ID_PREFIX = "PY102001"
 MIN_ID = 1
-MAX_ID = 20
+MAX_ID = 44
 
 # Allowed lab filenames
 ALLOWED_LABS = {"lab01.py", "lab02.py", "lab03.py", 
