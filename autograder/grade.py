@@ -13,7 +13,7 @@ from zoneinfo import ZoneInfo
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 SUBMISSIONS_DIR = REPO_ROOT / "submissions"
-RESULTS_FILE = REPO_ROOT / "autograder" / "results.json"
+RESULTS_FILE = None
 
 # Student IDs: PY102001001 .. PY102001020
 ID_PREFIX = "PY102001"
@@ -209,6 +209,7 @@ def main() -> None:
         sys.exit(1)
 
     student_dir = SUBMISSIONS_DIR / student_id
+    results_file = student_dir / "autograder_results.json"
     if not student_dir.exists():
         print(f"❌ Student folder does not exist: {student_dir}")
         sys.exit(1)
@@ -242,11 +243,12 @@ def main() -> None:
 
    # 6) Apply late policy
 
-    if not RESULTS_FILE.exists():
-        print("❌ Could not find autograder/results.json (did conftest.py write it?)")
+    if not results_file.exists():
+        print(f"Could not find results file: {results_file}")
+        print("Did conftest.py write it?")
         sys.exit(1)
 
-    results = json.loads(RESULTS_FILE.read_text(encoding="utf-8"))
+    results = json.loads(results_file.read_text(encoding="utf-8"))
     earned = int(results.get("earned", 0))
     max_points = int(results.get("max", 0))
 
