@@ -24,74 +24,8 @@ jobs:
           GH_TOKEN: ${{ github.token}}
           WORKFLOW_FILE: autograde.yml
           ARTIFACT_NAME: autograder_result
-        run: |
-          set -euo pipefail
-          mkdir -p artifacts
+        run: python3 .github/scripts/update_gradebook.py
 
-          gh run list --workflow "Autograde" --limit 100 --json databaseId,conclusion \
-            | python3 - <<'PY'
-          import json, subprocess, sys, os
-          data = json.load(sys.stdin)
-          artifact = os.environ["ARTIFACT_NAME"]
-          for r in data:
-            if r.get("conclusion") != "success":
-                continue
-            run_id = str(r["databaseId"])
-            # download artifact for this run (ignore runs that don't have it)
-            subprocess.run(
-                ["gh", "run", "download", run_id, "--name", artifact, "--dir", f"artifacts/{run_id}"],
-                check=False
-            )
-          PY
-
-          # Append new rows to gradebook.csv from downloaded JSON files
-          python3 - <<'PY'
-          import csv, glob, json
-          from pathlib import Path
-
-          gradebook = Path("autograder/gradebook.csv")
-          gradebook.parent.mkdir(parents=True, exist_ok=True)
-
-          seen = set()
-          if gradebook.exists():
-              with gradebook.open("r", encoding="utf-8", newline="") as f:
-                  for row in csv.DictReader(f):
-                      rid = row.get("run_id")
-                      if rid:
-                          seen.add(rid)
-
-          json_files = glob.glob("artifacts/**/autograder_results.json", recursive=True)
-
-          new_rows = []
-          for p in json_files:
-            data = json.loads(Path(p).read_text(encoding="utf-8"))
-            student_dir = data.get("student_dir", "")
-            student_id = student_dir.strip("/").split("/")[-1] if student_dir else "UNKNOWN"
-            final_score = int(data.get("final_score", data.get("earned", 0)))
-            maxp = int(data.get("max", 0))
-            submitted_at = data.get("submitted_at", "")
-
-            run_id = Path(p).parts[1] if len(Path(p).parts) > 1 else ""
-            if not run_id or run_id in seen:
-                continue
-
-            new_rows.append([student_id, final_score, maxp, submitted_at, run_id])
-
-          if not new_rows:
-              print("No new rows to append.")
-              raise SystemExit(0)
-
-          write_header = not gradebook.exists()
-          with gradebook.open("a", encoding="utf-8", newline="") as f:
-              w = csv.writer(f)
-              if write_header:
-                  w.writerow(["student_id", "final_score", "max_points", "submitted_at", "run_id"])
-              for row in new_rows:
-                  w.writerow(row)
-
-          print(f"Appended {len(new_rows)} rows.")
-          PY
-          
       - name: Commit and push gradebook
         run: |
             git config user.name "github-actions"
