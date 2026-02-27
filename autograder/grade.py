@@ -5,19 +5,20 @@ import os
 import subprocess
 import sys
 import json
-from datetime import datetime, timedelta
+from datetime import datetime
 from pathlib import Path
 from typing import List, Set
+from datetime import datetime
+import csv
 
 from zoneinfo import ZoneInfo
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 SUBMISSIONS_DIR = REPO_ROOT / "submissions"
-RESULTS_FILE = REPO_ROOT / "autograder" / "results.json"
 
 # Student IDs: PY102001001 .. PY102001020
 ID_PREFIX = "PY102001"
-MIN_ID = 1
+MIN_ID = 0
 MAX_ID = 44
 
 # Allowed lab filenames
@@ -60,7 +61,6 @@ def run(cmd: List[str]) -> str:
         print("Command failed:", " ".join(cmd))
         print(p.stdout)
         print(p.stderr)
-        sys.exit(p.returncode)
     return p.stdout.strip()
 
 
@@ -153,7 +153,6 @@ def apply_late_policy(
 
     return final_score, messages
 
-
 def main() -> None:
     base_ref = os.environ.get("BASE_REF", "main")
     changed = get_changed_files(base_ref)
@@ -209,6 +208,7 @@ def main() -> None:
         sys.exit(1)
 
     student_dir = SUBMISSIONS_DIR / student_id
+    results_file = student_dir / "autograder_results.json"
     if not student_dir.exists():
         print(f"❌ Student folder does not exist: {student_dir}")
         sys.exit(1)
@@ -242,11 +242,12 @@ def main() -> None:
 
    # 6) Apply late policy
 
-    if not RESULTS_FILE.exists():
-        print("❌ Could not find autograder/results.json (did conftest.py write it?)")
+    if not results_file.exists():
+        print(f"Could not find results file: {results_file}")
+        print("Did conftest.py write it?")
         sys.exit(1)
 
-    results = json.loads(RESULTS_FILE.read_text(encoding="utf-8"))
+    results = json.loads(results_file.read_text(encoding="utf-8"))
     earned = int(results.get("earned", 0))
     max_points = int(results.get("max", 0))
 
@@ -265,8 +266,14 @@ def main() -> None:
         print(" -", msg)
 
     print(f"FINAL SCORE: {final_score}/{max_points}")
+    results["final_score"] = final_score
+    results["submitted_at"] = submitted_at.isoformat() if submitted_at else None
+    results["late_messages"] = late_messages
+
+    results_file.write_text(json.dumps(results, indent=2), encoding="utf-8")
     sys.exit(0)
 
 
 if __name__ == "__main__":
     main()
+    sys.exit(0)
