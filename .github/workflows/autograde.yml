@@ -10,7 +10,6 @@ on:
 
 permissions:
   contents: read
-  pull-requests: read
 
 jobs:
   grade:
@@ -37,3 +36,23 @@ jobs:
           BASE_REF: ${{ github.base_ref }}
         run: |
           python autograder/grade.py
+
+      - name: Upload grading result (JSON)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: autograder_result
+          path: submissions/**/autograder_results.json
+          if-no-files-found: warn
+
+      - name: Write score to job summary
+        if: always()
+        run: |
+          echo "## Autograde result" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if ls submissions/**/autograder_results.json 1> /dev/null 2>&1; then
+            cat submissions/**/autograder_results.json >> $GITHUB_STEP_SUMMARY
+          else
+            echo "_No autograder_results.json found._" >> $GITHUB_STEP_SUMMARY
+          fi
+        

@@ -2,7 +2,7 @@ import os
 import importlib.util
 from pathlib import Path
 import re
-
+import pytest
 
 def load_lab00():
     student_dir = os.environ.get("STUDENT_DIR")
@@ -36,7 +36,7 @@ def test_submission_check_not_placeholder():
         "You must replace the placeholder with your actual student ID"
     )
 
-
+@pytest.mark.points(1)
 def test_submission_check_format():
     m = load_lab00()
     result = m.submission_check()
