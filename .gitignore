@@ -1,5 +1,6 @@
 # Developer tools
 tools/
+grades/
 
 # Stop tracking
 .DS_Store

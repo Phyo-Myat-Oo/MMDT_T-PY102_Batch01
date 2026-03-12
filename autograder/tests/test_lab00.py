@@ -12,8 +12,8 @@ def load_lab00():
     assert lab00.exists(), "lab00.py not found in your submission folder"
 
     spec = importlib.util.spec_from_file_location("lab00", lab00)
-    module = importlib.util.module_from_spec(spec)
     assert spec and spec.loader
+    module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
 

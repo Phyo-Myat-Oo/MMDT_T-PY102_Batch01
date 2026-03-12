@@ -1,0 +1,31 @@
+{
+  "earned": 1,
+  "max": 1,
+  "details": [
+    {
+      "nodeid": "autograder/tests/test_lab00.py::test_submission_check_exists",
+      "outcome": "passed",
+      "points": 0,
+      "max_points": 0
+    },
+    {
+      "nodeid": "autograder/tests/test_lab00.py::test_submission_check_returns_string",
+      "outcome": "passed",
+      "points": 0,
+      "max_points": 0
+    },
+    {
+      "nodeid": "autograder/tests/test_lab00.py::test_submission_check_not_placeholder",
+      "outcome": "passed",
+      "points": 0,
+      "max_points": 0
+    },
+    {
+      "nodeid": "autograder/tests/test_lab00.py::test_submission_check_format",
+      "outcome": "passed",
+      "points": 1,
+      "max_points": 1
+    }
+  ],
+  "student_dir": "/Volumes/Data/MMDT_T-PY102_Batch01/submissions/PY102001043"
+}

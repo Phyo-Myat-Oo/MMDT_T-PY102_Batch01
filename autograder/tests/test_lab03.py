@@ -27,8 +27,8 @@ def load_lab03():
     assert lab_path.exists(), f"Missing file: {lab_path}"
 
     spec = importlib.util.spec_from_file_location("student_lab03", lab_path)
-    module = importlib.util.module_from_spec(spec)
     assert spec and spec.loader
+    module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
 
