@@ -6,3 +6,9 @@ grades/
 .DS_Store
 .pytest_cache
 .venv
+
+__pycache__/
+autograder/tests/__pycache__
+*.pyc
+*.pyo
+*.pyd
