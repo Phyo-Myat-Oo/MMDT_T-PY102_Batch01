@@ -1,0 +1,134 @@
+"""
+Lab 03 — Hash Tables (4 Questions)
+
+Rules:
+- Do NOT use print() or input().
+- Implement the functions exactly as named.
+- You may use basic Python lists and dictionaries.
+- Do NOT use any built-in hash table libraries except dict for Q1.
+
+Questions:
+Q1) Hash map usage
+Q2) Hash table with chaining (conceptual simulation)
+Q3) Linear probing simulation
+Q4) Quadratic probing simulation
+"""
+
+
+# -------------------------
+# Q1 — Hash Map
+# -------------------------
+
+def char_frequency(s: str) -> dict[str, int]:
+    """
+    Q1:
+    Given a string s, return a dictionary showing the frequency
+    of each character in the string.
+
+    Example:
+      s = "banana"
+      output = {'b': 1, 'a': 3, 'n': 2}
+    """
+    output_dict = {}
+   
+    for i in s:
+        if i in output_dict:
+            output_dict[i] = output_dict[i] + 1
+        else:
+            output_dict[i] = 1
+    return output_dict
+
+
+# -------------------------
+# Q2 — Chaining (Collision Handling)
+# -------------------------
+
+def insert_chaining(table: list[list[int]], key: int, size: int) -> list[list[int]]:
+    """
+    Q2:
+    Simulate inserting a key into a hash table using chaining.
+
+    - table is a list of buckets (each bucket is a list).
+    - hash function: key % size
+    - Insert the key into the correct bucket.
+
+    Example:
+      table = [[], [], []]
+      key = 5
+      size = 3
+
+      index = 5 % 3 = 2
+      output = [[], [], [5]]
+    """
+    index = key % size
+    bucket = table[index]
+    bucket.append(key)
+
+    return table
+
+
+# -------------------------
+# Q3 — Linear Probing
+# -------------------------
+
+def insert_linear_probing(table: list[int | None], key: int) -> list[int | None]:
+    """
+    Q3:
+    Simulate inserting a key into a hash table using linear probing.
+
+    Rules:
+    - hash function: key % len(table)
+    - If a slot is occupied, move to the next index (circular).
+    - Insert the key into the first empty (None) slot.
+
+    Example:
+      table = [None, 4, None, None]
+      key = 8
+
+      hash = 8 % 4 = 0
+      slot 0 is empty → insert
+
+      output = [8, 4, None, None]
+    """
+    hash_idx = key % len(table)
+    for _ in range(len(table)):
+        if table[hash_idx] is None:
+            table[hash_idx] = key
+            return table
+        hash_idx = (hash_idx + 1) % len(table)
+    return table
+
+
+# -------------------------
+# Q4 — Quadratic Probing
+# -------------------------
+
+def insert_quadratic_probing(table: list[int | None], key: int) -> list[int | None]:
+    """
+    Q4:
+    Simulate inserting a key into a hash table using quadratic probing.
+
+    Rules:
+    - hash function: key % len(table)
+    - Probe sequence:
+        (hash + i*i) % len(table), for i = 0, 1, 2, ...
+    - Insert the key into the first empty (None) slot.
+
+    Example:
+      table = [None, 7, None, None]
+      key = 11
+
+      hash = 11 % 4 = 3
+      i = 0 → index = 3
+      slot 3 is empty → insert
+
+      output = [None, 7, None, 11]
+    """
+    n = len(table)
+    hash_idx = key % n
+    for i in range(n):
+        idx = (hash_idx + i * i) % n
+        if table[idx] is None:
+          table[idx] = key
+          return table
+    return table
