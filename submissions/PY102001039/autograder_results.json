@@ -1,60 +1,30 @@
 {
-  "earned": 20,
+  "earned": 5,
   "max": 20,
   "details": [
     {
-      "nodeid": "autograder/tests/test_lab01.py::test_reverse_empty",
-      "outcome": "passed",
-      "points": 2,
-      "max_points": 2
+      "nodeid": "autograder/tests/test_lab02.py::test_q1_is_balanced_parentheses",
+      "outcome": "failed",
+      "points": 0,
+      "max_points": 5
     },
     {
-      "nodeid": "autograder/tests/test_lab01.py::test_reverse_single",
-      "outcome": "passed",
-      "points": 2,
-      "max_points": 2
+      "nodeid": "autograder/tests/test_lab02.py::test_q2_next_greater_to_right",
+      "outcome": "failed",
+      "points": 0,
+      "max_points": 5
     },
     {
-      "nodeid": "autograder/tests/test_lab01.py::test_reverse_multiple",
-      "outcome": "passed",
-      "points": 2,
-      "max_points": 2
+      "nodeid": "autograder/tests/test_lab02.py::test_q3_first_non_repeating",
+      "outcome": "failed",
+      "points": 0,
+      "max_points": 5
     },
     {
-      "nodeid": "autograder/tests/test_lab01.py::test_reverse_two",
+      "nodeid": "autograder/tests/test_lab02.py::test_q4_hot_potato",
       "outcome": "passed",
-      "points": 2,
-      "max_points": 2
-    },
-    {
-      "nodeid": "autograder/tests/test_lab01.py::test_double_zero",
-      "outcome": "passed",
-      "points": 2,
-      "max_points": 2
-    },
-    {
-      "nodeid": "autograder/tests/test_lab01.py::test_double_no_carry",
-      "outcome": "passed",
-      "points": 2,
-      "max_points": 2
-    },
-    {
-      "nodeid": "autograder/tests/test_lab01.py::test_double_with_carry_middle",
-      "outcome": "passed",
-      "points": 2,
-      "max_points": 2
-    },
-    {
-      "nodeid": "autograder/tests/test_lab01.py::test_double_new_head_carry",
-      "outcome": "passed",
-      "points": 3,
-      "max_points": 3
-    },
-    {
-      "nodeid": "autograder/tests/test_lab01.py::test_double_longer_mix",
-      "outcome": "passed",
-      "points": 3,
-      "max_points": 3
+      "points": 5,
+      "max_points": 5
     }
   ],
   "student_dir": "/Volumes/Data/MMDT_T-PY102_Batch01/submissions/PY102001039"
