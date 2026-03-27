@@ -29,13 +29,16 @@ def char_frequency(s: str) -> dict[str, int]:
       s = "banana"
       output = {'b': 1, 'a': 3, 'n': 2}
     """
-   
-    freq = {}
-    for char in s:
-        # If char is in dict, increment; otherwise, initialize to 1
-        freq[char] = freq.get(char, 0) + 1
-    return freq
+    frequency_table = {}
     
+    for each_character in s:
+        if each_character not in frequency_table:
+            frequency_table[each_character] = 1
+        else:
+            old_count = frequency_table[each_character]
+            frequency_table[each_character] = old_count + 1
+
+    return frequency_table
 
 # -------------------------
 # Q2 — Chaining (Collision Handling)
@@ -58,12 +61,11 @@ def insert_chaining(table: list[list[int]], key: int, size: int) -> list[list[in
       index = 5 % 3 = 2
       output = [[], [], [5]]
     """
-    
-    index = key % size
-    # Append the key to the list (bucket) at the calculated index
-    table[index].append(key)
+    bucket_index = key % size 
+    table[bucket_index].append(key)
     return table
-    
+
+
 # -------------------------
 # Q3 — Linear Probing
 # -------------------------
@@ -87,19 +89,16 @@ def insert_linear_probing(table: list[int | None], key: int) -> list[int | None]
 
       output = [8, 4, None, None]
     """
+    table_size = len(table)
+    starting_slot = key % table_size
+    slot_to_check = starting_slot
 
-    def insert_linear_probing(table: list[int | None], key: int) -> list[int | None]:
-    size = len(table)
-    start_index = key % size
-    
-    for i in range(size):
-        # Linear move: (start + i) % size
-        index = (start_index + i) % size
-        if table[index] is None:
-            table[index] = key
+    while True:
+        if table[slot_to_check] is None:
+            table[slot_to_check] = key
             return table
-    return table # Table is full
-    
+
+        slot_to_check = (slot_to_check + 1) % table_size
 
 
 # -------------------------
@@ -127,15 +126,16 @@ def insert_quadratic_probing(table: list[int | None], key: int) -> list[int | No
 
       output = [None, 7, None, 11]
     """
-   
-    size = len(table)
-    start_index = key % size
-    
-    for i in range(size):
-        # Quadratic move: (start + i^2) % size
-        index = (start_index + i**2) % size
-        if table[index] is None:
-            table[index] = key
+    table_size = len(table)
+    starting_slot = key % table_size
+    attempt = 0
+
+    while True:
+        jump = attempt * attempt
+        slot_to_check = (starting_slot + jump) % table_size
+
+        if table[slot_to_check] is None:
+            table[slot_to_check] = key
             return table
-    return table # No slot found within 'size' probes
-    
+
+        attempt = attempt + 1

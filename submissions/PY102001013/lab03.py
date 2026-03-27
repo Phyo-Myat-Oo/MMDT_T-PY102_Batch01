@@ -19,6 +19,7 @@ Q4) Quadratic probing simulation
 # Q1 — Hash Map
 # -------------------------
 
+
 def char_frequency(s: str) -> dict[str, int]:
     """
     Q1:
@@ -29,17 +30,25 @@ def char_frequency(s: str) -> dict[str, int]:
       s = "banana"
       output = {'b': 1, 'a': 3, 'n': 2}
     """
-   
-    freq = {}
-    for char in s:
-        # If char is in dict, increment; otherwise, initialize to 1
-        freq[char] = freq.get(char, 0) + 1
-    return freq
-    
+
+    char_table = {}
+
+    for char in s.lower():
+        if char in char_table.keys():
+            char_table[char] += 1
+        if char not in char_table.keys():
+            char_table[char] = 1
+    # print(char_table)
+
+    return char_table
+
+
+# char_frequency("aabbccdd")
 
 # -------------------------
 # Q2 — Chaining (Collision Handling)
 # -------------------------
+
 
 def insert_chaining(table: list[list[int]], key: int, size: int) -> list[list[int]]:
     """
@@ -58,15 +67,24 @@ def insert_chaining(table: list[list[int]], key: int, size: int) -> list[list[in
       index = 5 % 3 = 2
       output = [[], [], [5]]
     """
-    
-    index = key % size
-    # Append the key to the list (bucket) at the calculated index
-    table[index].append(key)
+
+    def hashFunc(x, y):
+        return x % y
+
+    hash = hashFunc(key, size)
+    # print(hashed)
+    # print(table[hashed])
+    table[hash].append(key)
+    # print(table)
     return table
-    
+
+
+# insert_chaining([[], [], []], 5, 3)
+
 # -------------------------
 # Q3 — Linear Probing
 # -------------------------
+
 
 def insert_linear_probing(table: list[int | None], key: int) -> list[int | None]:
     """
@@ -88,23 +106,31 @@ def insert_linear_probing(table: list[int | None], key: int) -> list[int | None]
       output = [8, 4, None, None]
     """
 
-    def insert_linear_probing(table: list[int | None], key: int) -> list[int | None]:
-    size = len(table)
-    start_index = key % size
-    
-    for i in range(size):
-        # Linear move: (start + i) % size
-        index = (start_index + i) % size
-        if table[index] is None:
-            table[index] = key
-            return table
-    return table # Table is full
-    
+    # TODO
+    def hashFunc(x, y):
+        return x % len(y)
 
+    hash = hashFunc(key, table)
+
+    if table[hash] is None:
+        table[hash] = key
+    else:
+        for i in range(len(table)):
+            idx = (hash + i) % len(table)
+            if table[idx] is None:
+                table[idx] = key
+                break
+    # print(table)
+
+    return table
+
+
+# insert_linear_probing([None, 4, None, None], 8)
 
 # -------------------------
 # Q4 — Quadratic Probing
 # -------------------------
+
 
 def insert_quadratic_probing(table: list[int | None], key: int) -> list[int | None]:
     """
@@ -127,15 +153,19 @@ def insert_quadratic_probing(table: list[int | None], key: int) -> list[int | No
 
       output = [None, 7, None, 11]
     """
-   
-    size = len(table)
-    start_index = key % size
-    
-    for i in range(size):
-        # Quadratic move: (start + i^2) % size
-        index = (start_index + i**2) % size
-        if table[index] is None:
-            table[index] = key
-            return table
-    return table # No slot found within 'size' probes
-    
+
+    def hashFunc(x, y):
+        return x % len(y)
+
+    hash = hashFunc(key, table)
+
+    if table[hash] is None:
+        table[hash] = key
+    else:
+        for i in range(len(table)):
+            idx = (hash + i * i) % len(table)
+            if table[idx] is None:
+                table[idx] = key
+                break
+
+    return table
