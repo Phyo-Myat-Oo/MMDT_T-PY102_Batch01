@@ -29,13 +29,13 @@ def char_frequency(s: str) -> dict[str, int]:
       s = "banana"
       output = {'b': 1, 'a': 3, 'n': 2}
     """
-   
-    freq = {}
+    output = {}
     for char in s:
-        # If char is in dict, increment; otherwise, initialize to 1
-        freq[char] = freq.get(char, 0) + 1
-    return freq
-    
+        if char in output:
+            output[char] += 1
+        else:
+            output[char] = 1
+    return output
 
 # -------------------------
 # Q2 — Chaining (Collision Handling)
@@ -58,12 +58,11 @@ def insert_chaining(table: list[list[int]], key: int, size: int) -> list[list[in
       index = 5 % 3 = 2
       output = [[], [], [5]]
     """
-    
     index = key % size
-    # Append the key to the list (bucket) at the calculated index
     table[index].append(key)
     return table
-    
+
+
 # -------------------------
 # Q3 — Linear Probing
 # -------------------------
@@ -87,19 +86,15 @@ def insert_linear_probing(table: list[int | None], key: int) -> list[int | None]
 
       output = [8, 4, None, None]
     """
-
-    def insert_linear_probing(table: list[int | None], key: int) -> list[int | None]:
-    size = len(table)
-    start_index = key % size
     
-    for i in range(size):
-        # Linear move: (start + i) % size
-        index = (start_index + i) % size
+    hash_index = key % len(table)
+    for i in range(len(table)):
+        index = (hash_index + i) % len(table)
         if table[index] is None:
             table[index] = key
-            return table
-    return table # Table is full
-    
+            break
+    return table
+  
 
 
 # -------------------------
@@ -127,15 +122,10 @@ def insert_quadratic_probing(table: list[int | None], key: int) -> list[int | No
 
       output = [None, 7, None, 11]
     """
-   
-    size = len(table)
-    start_index = key % size
-    
-    for i in range(size):
-        # Quadratic move: (start + i^2) % size
-        index = (start_index + i**2) % size
+    hash_index = key % len(table)
+    for i in range(len(table)):
+        index = (hash_index + i*i) % len(table)
         if table[index] is None:
             table[index] = key
-            return table
-    return table # No slot found within 'size' probes
-    
+            break
+    return table

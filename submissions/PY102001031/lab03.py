@@ -29,13 +29,17 @@ def char_frequency(s: str) -> dict[str, int]:
       s = "banana"
       output = {'b': 1, 'a': 3, 'n': 2}
     """
-   
+    # TODO
+    # raise NotImplementedError
     freq = {}
-    for char in s:
-        # If char is in dict, increment; otherwise, initialize to 1
-        freq[char] = freq.get(char, 0) + 1
-    return freq
+    for ch in s:
+        if ch in freq:
+            freq[ch] += 1
+        else:
+            freq[ch] = 1
     
+    return freq
+
 
 # -------------------------
 # Q2 — Chaining (Collision Handling)
@@ -58,12 +62,13 @@ def insert_chaining(table: list[list[int]], key: int, size: int) -> list[list[in
       index = 5 % 3 = 2
       output = [[], [], [5]]
     """
-    
+    # TODO
+    # raise NotImplementedError
     index = key % size
-    # Append the key to the list (bucket) at the calculated index
     table[index].append(key)
     return table
-    
+
+
 # -------------------------
 # Q3 — Linear Probing
 # -------------------------
@@ -87,19 +92,19 @@ def insert_linear_probing(table: list[int | None], key: int) -> list[int | None]
 
       output = [8, 4, None, None]
     """
-
-    def insert_linear_probing(table: list[int | None], key: int) -> list[int | None]:
+    # TODO
+    # raise NotImplementedError
     size = len(table)
-    start_index = key % size
-    
+    index = key % size
+
     for i in range(size):
-        # Linear move: (start + i) % size
-        index = (start_index + i) % size
-        if table[index] is None:
-            table[index] = key
-            return table
-    return table # Table is full
-    
+        probe = (index + i) % size
+        if table[probe] is None:
+            table[probe] = key
+            break
+            
+    return table
+
 
 
 # -------------------------
@@ -127,15 +132,16 @@ def insert_quadratic_probing(table: list[int | None], key: int) -> list[int | No
 
       output = [None, 7, None, 11]
     """
-   
+    # TODO
+    # raise NotImplementedError
+
     size = len(table)
-    start_index = key % size
-    
+    index = key % size
+
     for i in range(size):
-        # Quadratic move: (start + i^2) % size
-        index = (start_index + i**2) % size
-        if table[index] is None:
-            table[index] = key
-            return table
-    return table # No slot found within 'size' probes
+        probe = (index + i * i) % size
+        if table[probe] is None:
+            table[probe] = key
+            break
     
+    return table
