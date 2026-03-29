@@ -39,7 +39,7 @@ def is_balanced_parentheses(s: str) -> bool:
     }
     stack_list = deque()
     
-    for char in input_str:
+    for char in s:
 
         # process for keys
         if char in bracket_pairs:
@@ -214,3 +214,17 @@ def hot_potato(names: list[str], k: int) -> str:
 #     names = ["A", "B", "C", "D"]
 #     k = 2
 #     print(hot_potato(names, k)) 
+
+"""
+    f = m.is_balanced_parentheses
+    assert f("([]){}") is True
+    assert f("(]") is False
+    assert f("a+(b*c)-{d/e}") is True
+    assert f("([)]") is False
+    assert f("") is True
+    assert f("(((") is False
+    assert f("no brackets here!") is True
+"""
+
+brackets = "no brackets here!"
+print(is_balanced_parentheses(brackets))

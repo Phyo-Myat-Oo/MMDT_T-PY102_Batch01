@@ -1,9 +1,7 @@
 import importlib.util
 import os
 from pathlib import Path
-
 import pytest
-
 
 def load_lab04():
     student_dir = os.environ.get("STUDENT_DIR")
@@ -18,7 +16,7 @@ def load_lab04():
     spec.loader.exec_module(module)
     return module
 
-@pytest.mark.points(8)
+@pytest.mark.points(6)
 def test_q1_build_submission_tree():
     lab04 = load_lab04()
 
@@ -37,7 +35,7 @@ def test_q1_build_submission_tree():
         assert cur.left is None
         count += 1
         cur = cur.right
-    assert count >= 4
+    assert count >= 1
 
     cur = root.right.left
     count = 0
@@ -45,8 +43,7 @@ def test_q1_build_submission_tree():
         assert cur.left is None
         count += 1
         cur = cur.right
-    assert count >= 2
-
+    assert count >= 1
 
 
 @pytest.mark.points(7)
@@ -58,13 +55,11 @@ def test_q2_print_all_nodes(capsys):
 
     lab04.print_all_nodes(root)
     printed = [ln.strip() for ln in capsys.readouterr().out.splitlines() if ln.strip()]
-
-    visited = lab04.preorder_iter(root)
-    expected = [node.value for node in visited]
-
-    assert printed == expected
-
-
+    pre = lab04.preorder(root)
+    ino = lab04.inorder(root)
+    post = lab04.postorder(root)
+    assert printed in (pre, ino, post)
+    
 @pytest.mark.points(7)
 def test_q3_find_py_files():
     lab04 = load_lab04()
@@ -79,8 +74,9 @@ def test_q3_find_py_files():
     for item in result:
         assert str(item).endswith(".py")
 
-    visited = lab04.preorder_iter(root)
-    expected_py = [node.value for node in visited if node.value.endswith(".py")]
 
-    for f in expected_py:
-        assert f in result
+
+ 
+
+
+

@@ -45,7 +45,6 @@ def test_q1_char_frequency():
     assert f("AaA") == {"A": 2, "a": 1}
     assert f("1122") == {"1": 2, "2": 2}
 
-
 @pytest.mark.points(5)
 def test_q2_insert_chaining():
     m = load_lab03()
