@@ -50,34 +50,23 @@ def build_submission_tree(base_path: str, folder1: str, folder2: str) -> TreeNod
     folder2: name of your friend's folder inside submissions
     returns: root TreeNode
     """
-    root = TreeNode("submissions")
+    root = TreeNode(base_path)
     folder1 = TreeNode("PY102001035")
     folder2 = TreeNode("PY102001036")
 
     root.left = folder1
     root.right = folder2
 
-    folder1.left = TreeNode(".gitkeep")
-    folder1.right = TreeNode("lab00.py")
+    folder1.left = TreeNode("lab00.py")
+    folder1.right = TreeNode("lab01.py")
 
-    folder1.left.left = TreeNode("lab01.py")
-    folder1.left.right = TreeNode("lab02.py")
-
-    folder1.right.left = TreeNode("lab03.py")
-    folder1.right.right = TreeNode("lab04.py")
 
 
     folder2.left = TreeNode(".gitkeep")
     folder2.right = TreeNode("lab00.py")
 
-    folder2.left.left = TreeNode("lab01.py")
-    folder2.left.right = TreeNode("lab02.py")
-
-    folder2.right.left = TreeNode("lab03.py")
-    folder2.right.right = TreeNode("lab04.py")
     
     return root
-    raise NotImplementedError
 
 # -------------------------
 # Q2 — Visit All Nodes Using Tree Traversal (Print Everything)
