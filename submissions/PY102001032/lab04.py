@@ -51,14 +51,20 @@ def build_submission_tree(base_path: str, folder1: str, folder2: str) -> TreeNod
     returns: root TreeNode
     """
     # TODO
-    folder1_file1 = TreeNode("lab00.py")
-    folder1_file2 = TreeNode("lab01.py")
+    folder1_file5 = TreeNode("lab04.py", left=None, right=None)
+    folder1_file4 = TreeNode("lab03.py", left=None, right=folder1_file5)
+    folder1_file3 = TreeNode("lab02.py", left=None, right=folder1_file4)
+    folder1_file2 = TreeNode("lab01.py", left=None, right=folder1_file3)
+    folder1_file1 = TreeNode("lab00.py", left=None, right=folder1_file2)
 
-    folder2_file1 = TreeNode("lab00.py")
-    folder2_file2 = TreeNode("lab01.py")
+    folder2_file5 = TreeNode("lab04.py", left=None, right=None)
+    folder2_file4 = TreeNode("lab03.py", left=None, right=folder2_file5)
+    folder2_file3 = TreeNode("lab02.py", left=None, right=folder2_file4)
+    folder2_file2 = TreeNode("lab01.py", left=None, right=folder2_file3)
+    folder2_file1 = TreeNode("lab00.py", left=None, right=folder2_file2)
 
-    folder1_tree = TreeNode(folder1, left=folder1_file1, right=folder1_file2)
-    folder2_tree = TreeNode(folder2, left=folder2_file1, right=folder2_file2)
+    folder1_tree = TreeNode(folder1, left=folder1_file1, right=None)
+    folder2_tree = TreeNode(folder2, left=folder2_file1, right=None)
 
     root_tree = TreeNode(base_path, left=folder1_tree, right=folder2_tree)
 

@@ -122,7 +122,7 @@ def find_py_files(root: TreeNode) -> list[str]:
     def build_path(node: TreeNode, path: str, result: list[str]):
         if not node:
             return
-        
+    
         current_path = f"{path}/{node.value}" if path else node.value
         if current_path.endswith(".py"):
             result.append(current_path)
