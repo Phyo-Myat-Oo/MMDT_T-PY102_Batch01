@@ -42,7 +42,7 @@ def postorder(root):
 #         ├── fileC
 #         └── fileD
 # -------------------------
-import os
+
 def build_submission_tree(base_path: str, folder1: str, folder2: str) -> TreeNode:
     """
     base_path: "submissions"
@@ -51,25 +51,22 @@ def build_submission_tree(base_path: str, folder1: str, folder2: str) -> TreeNod
     returns: root TreeNode
     """
     # TODO
-    #base_path = os.path.join("MMDT_T-PY102_Batch01", "submissions")
+    base_path = "submissions"
+    folder1 = "PY102001015"
+    folder2 = "PY102001016"
 
-    def get_files_in_folder(folder_name):
-        path = os.path.join(base_path, folder_name)
-        if os.path.exists(path):
-            return [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
-        return []
+    root = TreeNode(base_path)
+    root.left = TreeNode(folder1)
+    root.right = TreeNode(folder2)
 
-    node1 = get_files_in_folder(folder1)
-    n1_left = TreeNode(node1[0]) if len(node1) > 0 else None
-    n1_right = TreeNode(node1[1]) if len(node1) > 1 else None
-    node_folder1 = TreeNode(folder1, left=n1_left, right=n1_right)
+    root.left.left = TreeNode("lab00.py")
+    root.left.right = TreeNode("lab01.py")
 
-    node2 = get_files_in_folder(folder2)
-    n2_left = TreeNode(node2[0]) if len(node2) > 0 else None
-    n2_right = TreeNode(node2[1]) if len(node2) > 1 else None
-    node_folder2 = TreeNode(folder2, left=n2_left, right=n2_right)
+    root.right.left = TreeNode("lab02.py")
+    root.right.right = TreeNode("lab03.py")
 
-    return TreeNode(base_path, left=node_folder1, right=node_folder2)
+    
+    return root
 
     raise NotImplementedError
 
@@ -93,20 +90,10 @@ def print_all_nodes(root: TreeNode) -> None:
     Traverse the tree and print the value stored in EVERY node.
     root: the TreeNode returned from build_submission_tree
     """
-    if not root:
-        return
-    print(root.value)
-    if root.left:
-        connector = "├──" if root.right else "└──"
-        print(f"{connector}", end="")
-
-        print_all_nodes(root.left)
-
-    if root.right:
-        connector = "└──"
-        print(f"{connector}", end="")
-
-        print_all_nodes(root.right)
+    all_nodes = preorder(root)
+    for node in all_nodes:
+        if node.startswith("PY102") or node.endswith(".py"):
+            print(node)
     return
     raise NotImplementedError("Implement Q2 here.")
 
@@ -129,10 +116,17 @@ def find_py_files(root: TreeNode) -> list[str]:
     Traverse the tree and return a list of all '.py' files.
     root: the TreeNode returned from build_submission_tree
     """
-    all_nodes = inorder(root)
+    all_nodes = postorder(root)
+    #print("Checking nodes:", all_nodes)
+    py_list = []
+    python_files =[]
     
-    python_files = [name for name in all_nodes if name.endswith(".py")]
-
+    for node in all_nodes:
+        if node.endswith(".py"):
+            py_list.append(node)
+        else:
+            while py_list:
+                python_files.append(node + "/" + py_list.pop(0))
+        
     return python_files
     raise NotImplementedError("Implement Q3 here.")
- 

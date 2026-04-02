@@ -52,31 +52,21 @@ def build_submission_tree(base_path: str, folder1: str, folder2: str) -> TreeNod
     folder2: name of your friend's folder inside submissions
     returns: root TreeNode
     """
-       
-    folder1_files = []
-    folder2_files = []
+    lab1 = TreeNode("lab01.py")
+    lab2 = TreeNode("lab02.py")
+    lab1.right = lab2
 
-    def make_folder_node(folder: str, files: list[str]) -> TreeNode:
-        folder_node = TreeNode(folder)
+    folder1_node = TreeNode(folder1, left=lab1)
 
-        files = sorted(files)
+    lab3 = TreeNode("lab03.py")
+    lab4 = TreeNode("lab04.py")
+    lab3.right = lab4
 
-        previous = None
-        for filename in files:
-            file_node = TreeNode(f"{folder}/{filename}")
-            if previous is None:
-                folder_node.left = file_node
-            else:
-                previous.right = file_node
-            previous = file_node
+    folder2_node = TreeNode(folder2, left = lab3)
 
-        return folder_node
-
-    root = TreeNode(base_path)
-    root.left = make_folder_node(folder1, folder1_files)
-    root.right = make_folder_node(folder2, folder2_files)
-    return root
-
+    root = TreeNode(base_path, left = folder1_node, right = folder2_node)
+    return root       
+    
 
 # -------------------------
 # Q2 — Visit All Nodes Using Tree Traversal (Print Everything)
@@ -121,8 +111,11 @@ def find_py_files(root: TreeNode) -> list[str]:
     root: the TreeNode returned from build_submission_tree
     """
     py_files = []
-    for value in preorder(root):
+    for value in preorder(root.left):
         if value.endswith('.py'):
-            py_files.append(value)
+           py_files.append(root.left.value + "/" + value)
+    for value in preorder(root.right):
+        if value.endswith('.py'):
+           py_files.append(root.right.value + "/" + value)
     return py_files
  

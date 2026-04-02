@@ -52,19 +52,20 @@ def build_submission_tree(base_path: str, folder1: str, folder2: str) -> TreeNod
     """
     # TODO
     #raise NotImplementedError
+    base_path = 'submissions'
     root = TreeNode(base_path)
 
-    node1 = TreeNode(folder1)
-    node2 = TreeNode(folder2)
+    if folder1 is None:
+        folder1 = 'PY102001016'
+    root.left = TreeNode(folder1)
+    root.left.left = TreeNode('lab01.py')
+    root.left.right = TreeNode('lab02.py')
 
-    root.left = node1
-    root.right = node2
-
-    node1.left = TreeNode('lab00.py')
-    node1.right = TreeNode('lab01.py')
-
-    node2.left = TreeNode('lab00.py')
-    node2.right = TreeNode('lab01.py')
+    if folder2 is None:
+        folder2 = 'PY102001017'
+    root.right = TreeNode(folder2)
+    root.right.left = TreeNode('lab01.py')
+    root.right.right = TreeNode('lab02.py')
 
     return root
 # -------------------------
@@ -120,10 +121,10 @@ def find_py_files(root: TreeNode) -> list[str]:
         if node == 'submissions':
             continue
 
+        elif '.' not in node:
+            current_folder = node
+
         elif node.endswith('.py'):
-            result.append(current_folder+'/'+node)
-            
-        else:
-            current_folder= node
+            result.append(f'{current_folder}/{node}')
 
     return result

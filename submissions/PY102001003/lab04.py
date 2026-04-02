@@ -73,24 +73,23 @@ def build_submission_tree(base_path: str, folder1: str, folder2: str) -> TreeNod
 
 
     # attach files to folder1
-    prev = None
-    for f in files1:
+    # prev = None
+    for f in files1[:2]:
         node = TreeNode(f)
         if not f1_root.left:
             f1_root.left = node   # first child
         else:
-            prev.right = node     # next sibling
-        prev = node
-
+            f1_root.right = node     # next sibling
+        # prev = node
     # attach files to folder2
-    prev = None
-    for f in files2:
+    # prev = None
+    for f in files2[:2]:
         node = TreeNode(f)
         if not f2_root.left:
             f2_root.left = node
         else:
-            prev.right = node
-        prev = node
+            f2_root.right = node
+        # prev = node
 
     return root
 
